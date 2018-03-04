@@ -57,7 +57,7 @@ String car_reg="TN23CA0237";
       socket.connect();
       socket.on("message",get_id);
       socket.on("otp",view_otp);
-      otp=findViewById(R.id.otp);
+      otp=findViewById(R.id.textView);
 
 
       }
