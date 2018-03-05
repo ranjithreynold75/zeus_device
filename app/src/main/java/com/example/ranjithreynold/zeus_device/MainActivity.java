@@ -47,10 +47,11 @@ public class MainActivity extends Activity {
     }
 
     TextView otp;
-
+    TextView user;
 
 String car_reg="TN23CA0237";
-
+String name="";
+String phone="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +60,36 @@ String car_reg="TN23CA0237";
       socket.connect();
       socket.on("message",get_id);
       socket.on("otp",view_otp);
-      otp=findViewById(R.id.textView);
-
-
+      socket.on("user_connect",user_connect);   //After requesting connection from phone
+      //otp=findViewById(R.id.textView);
+      user=findViewById(R.id.textView);
       }
+
+
+    Emitter.Listener user_connect=new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject jsonObject= (JSONObject) args[0];
+                         phone=jsonObject.getString("phone");
+                         name=jsonObject.getString("name");
+                        user.setText(String.format("Welcome %s", name));
+
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    };
+
+
+
 
 
     Emitter.Listener get_id=new Emitter.Listener() {
