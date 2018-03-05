@@ -32,8 +32,10 @@ import java.net.URISyntaxException;
  *
  * @see <a href="https://github.com/androidthings/contrib-drivers#readme">https://github.com/androidthings/contrib-drivers#readme</a>
  */
+
 public class MainActivity extends Activity {
 
+    String otp1="";
     Socket socket;
     {
         try
@@ -96,8 +98,10 @@ String car_reg="TN23CA0237";
                     try {
                         JSONObject jsonObject= (JSONObject) args[0];
                         String message=jsonObject.getString("pin");
-                        otp.setText(message);
-                     }
+                        otp1=message;
+                        OTP otp2=new OTP();
+                        otp2.show(getFragmentManager(),"OTP");
+                    }
                     catch (Exception e)
                     {
                         e.printStackTrace();
