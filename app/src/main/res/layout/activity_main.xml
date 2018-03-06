@@ -59,7 +59,7 @@
                     android:textColor="@android:color/background_dark"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="TextView" />
+                    android:hint="plan todo" />
             </RelativeLayout>
 
             <TextView
@@ -81,7 +81,8 @@
                 android:textColor="@android:color/background_dark"
                 android:layout_margin="10sp"
                 android:layout_weight="1"
-                android:text="Welcome to Zeus cars"
+                android:enabled="false"
+                android:hint="messages"
                 android:padding="10sp"
                 android:textSize="15sp"/>
 
