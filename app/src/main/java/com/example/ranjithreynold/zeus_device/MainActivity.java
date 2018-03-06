@@ -32,8 +32,10 @@ import java.net.URISyntaxException;
  *
  * @see <a href="https://github.com/androidthings/contrib-drivers#readme">https://github.com/androidthings/contrib-drivers#readme</a>
  */
+
 public class MainActivity extends Activity {
 
+    String otp1="";
     Socket socket;
     {
         try
@@ -45,10 +47,11 @@ public class MainActivity extends Activity {
     }
 
     TextView otp;
-
+    TextView user;
 
 String car_reg="TN23CA0237";
-
+String name="";
+String phone="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +60,36 @@ String car_reg="TN23CA0237";
       socket.connect();
       socket.on("message",get_id);
       socket.on("otp",view_otp);
-      otp=findViewById(R.id.textView);
-
-
+      socket.on("user_connect",user_connect);   //After requesting connection from phone
+      //otp=findViewById(R.id.textView);
+      user=findViewById(R.id.textView);
       }
+
+
+    Emitter.Listener user_connect=new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject jsonObject= (JSONObject) args[0];
+                         phone=jsonObject.getString("phone");
+                         name=jsonObject.getString("name");
+                        user.setText(String.format("Welcome %s", name));
+
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    };
+
+
+
 
 
     Emitter.Listener get_id=new Emitter.Listener() {
@@ -96,8 +125,10 @@ String car_reg="TN23CA0237";
                     try {
                         JSONObject jsonObject= (JSONObject) args[0];
                         String message=jsonObject.getString("pin");
-                        otp.setText(message);
-                     }
+                        otp1=message;
+                        OTP otp2=new OTP();
+                        otp2.show(getFragmentManager(),"OTP");
+                    }
                     catch (Exception e)
                     {
                         e.printStackTrace();
